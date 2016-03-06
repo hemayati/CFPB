@@ -1,0 +1,60 @@
+<html>
+<head>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+ //google.charts.load('current', {'packages':['corechart']});
+ google.charts.load('current', {'packages':['bar']});
+google.charts.setOnLoadCallback(drawStuff);
+
+function drawStuff() 
+{
+    var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/14IM4zHpNks2yEQHBH62IJdUh8G9gCflAmFSPewbrZ_E/edit?usp=sharing');
+	                                            
+	//query.setQuery('select A,B, C ');
+    query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+
+  var data = response.getDataTable();
+  //var chart2 = new google.visualization.MotionChart(document.getElementById('chart_div'));
+//   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  
+   var options = {
+          width: 900,
+          chart: {
+            title: 'Number of Complaints by Product in 2014 vs 2015',
+          
+          },
+          series: {
+            0: { axis: '2014' }, // Bind series 0 to an axis named '2014'.
+            1: { axis: '2015' } // Bind series 1 to an axis named '2015'.
+          },
+		   axes: {
+            y: {
+              2014: {label: '2014 blue'}, // Left y-axis.
+              2015: {label: '2015 red'} // Right y-axis.
+            }
+}
+		  
+		  };
+          
+ //var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+ var chart = new google.charts.Bar(document.getElementById('dual_y_div'));
+
+  chart.draw(data, options);
+}
+</script>
+
+<title>Data from a Spreadsheet</title>
+</head>
+<body>
+<div id="dual_y_div" style="width: 900px; height: 500px;"> </div>
+
+</body>
+</html>

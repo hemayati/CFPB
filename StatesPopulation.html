@@ -1,0 +1,49 @@
+<html>
+<head>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+ //google.charts.load('current', {'packages':['corechart']});
+// google.charts.load('current', {'packages':['bar']});
+ google.charts.load('current', {'packages':['table']});
+
+google.charts.setOnLoadCallback(drawTable);
+
+
+ function drawTable() 
+
+{
+    var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/1SCRvya1LitztRsFP33_1MWPL-dsryy44IuWg5e5Ihuk/edit?usp=sharing');
+	                                            
+	query.setQuery('select A,B, C,B/C ');
+    query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+
+  var data = response.getDataTable();
+  //var chart2 = new google.visualization.MotionChart(document.getElementById('chart_div'));
+//   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  
+   
+		 
+          
+ //var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+ var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true});
+
+}
+</script>
+
+<title>Data from a Spreadsheet</title>
+</head>
+<body>
+<div id="table_div" > </div>
+
+</body>
+</html>
